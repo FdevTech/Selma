@@ -70,7 +70,7 @@ public class CameraFragment extends Fragment {
 
     private Classifier classifier;
     private Classifier.Recognition BestResult;
-    private static Classifier.Recognition currentRecognition;
+    public static Classifier.Recognition currentRecognition;
 
     //Init Recognition View Model
     //private RecognitionViewModel sharedViewModel;

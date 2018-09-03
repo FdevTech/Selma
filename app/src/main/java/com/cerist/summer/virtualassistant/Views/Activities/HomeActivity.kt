@@ -47,6 +47,8 @@ class HomeActivity: BaseRecognitionActivity(),
     private lateinit var inflater: LayoutInflater
     private lateinit var layoutContainer: LinearLayout
     private lateinit var container: ViewGroup
+    private lateinit var textView: TextView
+
 
     private lateinit var mLampViewModel:LampViewModel
     private lateinit var mTvViewModel:TvViewModel
@@ -59,6 +61,7 @@ class HomeActivity: BaseRecognitionActivity(),
     private lateinit var rxPermissions:RxPermissions
 
     private lateinit var disposable:Disposable
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -113,6 +116,9 @@ class HomeActivity: BaseRecognitionActivity(),
             true
         }
 
+        textView = container.findViewById<View>(R.id.textToShow) as TextView
+
+
 
         mDialogViewModel = getViewModel(this,Repositories.DIALOG_REPOSITORY) as DialogViewModel
         mLampViewModel  = getViewModel(this,Repositories.LAMP_REPOSITORY) as LampViewModel
@@ -165,11 +171,17 @@ class HomeActivity: BaseRecognitionActivity(),
 
         mTvViewModel.getTvVolumeLevelLiveData().observe(this, Observer {
             Log.d(TAG,"subscribing to the tv volume changes")
-            mTextToSpeech.speak("${getString(R.string.tv_volume_indicator)} $it",TextToSpeech.QUEUE_ADD,null,it?.hashCode().toString())
 
-            val textView = container.findViewById<View>(R.id.textToShow) as TextView
-            textView.setText("The TV Volume is "+it)
-            popupWindow.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, 150, 300)
+            if (CameraFragment.currentRecognition.title == "television") {
+                textView.setText("The TV Volume is " + it)
+                popupWindow.showAtLocation(layoutContainer, Gravity.CENTER, 0, 0)
+                mTextToSpeech.speak("${getString(R.string.tv_volume_indicator)} $it",TextToSpeech.QUEUE_ADD,null,it?.hashCode().toString())
+
+            }else{
+                mTextToSpeech.speak("Please turn your Camera to the TV",TextToSpeech.QUEUE_ADD,null,it?.hashCode().toString())
+
+
+            }
 
         })
 
