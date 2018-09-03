@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Intelligent Virtual Assistant</string>
+    
+    <!-- BOT responses -->
+    <!-- BOT lamp responses -->
+    <string name="lamp_power_state_indicator">The lights are</string>
+    <string name="lamp_mode_indicator">the brightness is set to</string>
+    <string name="tv_state_indicator">The TV is</string>
+    <string name="tv_volume_indicator">The TV volume is</string>
+    <string name="tv_timer_indicator">The TV auto sleep timer is set to</string>
+    <string name="air_conditioner_state_indicator">The air conditioner is</string>
+    <string name="air_conditioner_mode_indicator">The air conditioner is on</string>
+    <string name="air_conditioner_temp_indicator">The temperature is set to</string>
+
+    <!-- BOT error responses -->
+    
+    <string name="_100">Sorry! Bluetooth not available</string>
+    <string name="_101">Sorry! Device not connected</string>
+    <string name="_102">Sorry! something went wrong, retry please</string>
+
+
+
+</resources>

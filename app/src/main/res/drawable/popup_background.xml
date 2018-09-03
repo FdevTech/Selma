@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <corners android:radius="15dp" />
+    <padding
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp" />
+    <size
+        android:width="300dp"
+        android:height="100dp" />
+    <!-- <solid android:color="@color/colorAccent" />-->
+
+    <!-- Blue-->
+    <!--<gradient
+        android:startColor="#E1F5FE"
+        android:centerColor="#B3E5FC"
+        android:endColor="#4FC3F7"
+        android:angle="90"/>-->
+
+    <!-- CYAN-->
+    <gradient
+        android:angle="90"
+        android:centerColor="#80DEEA"
+        android:endColor="#00ACC1"
+        android:startColor="#E0F7FA" />
+
+    <!-- TEAL-->
+    <!--<gradient
+        android:startColor="#E0F2F1"
+        android:centerColor="#80CBC4"
+        android:endColor="#009688"
+        android:angle="90"/>-->
+
+</shape>
