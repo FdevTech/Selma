@@ -539,8 +539,10 @@ public class CameraFragment extends Fragment {
                 currentRecognition = BestResult;
                 //sharedViewModel.setRecognition(BestResult);
             }
-            else
+            else{
                 span = new SpannableString(String.format("Unkonwn Object"));
+                currentRecognition = new Classifier.Recognition(BestResult.getId(),"Unkonwn Object",BestResult.getConfidence(),BestResult.getLocation());
+            }
 
 
             int color;

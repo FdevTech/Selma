@@ -40,7 +40,8 @@ class DefaultServiceLocator (private val activity: FragmentActivity): ServiceLoc
     private val broadLinkBleDevice: Observable<RxBleDevice>
     private val broadLinkRepository:BroadLinkRepository
     private val mConfig = AIConfiguration(
-            "e87e26ceb2ae4519ace2f3c71abd076e",
+            //"e87e26ceb2ae4519ace2f3c71abd076e",
+            "773ae243ebfe4170a649f28a2c620e93",
                              ai.api.AIConfiguration.SupportedLanguages.English,
                              AIConfiguration.RecognitionEngine.System
     )

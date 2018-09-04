@@ -31,6 +31,9 @@ import com.cerist.summer.virtualassistant.Views.Fragments.CameraFragment
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
 import java.util.*
+import android.view.MotionEvent
+
+
 
 class HomeActivity: BaseRecognitionActivity(),
         DialogFragment.AudioRecordingButtonTouchListener,
@@ -172,16 +175,9 @@ class HomeActivity: BaseRecognitionActivity(),
         mTvViewModel.getTvVolumeLevelLiveData().observe(this, Observer {
             Log.d(TAG,"subscribing to the tv volume changes")
 
-            if (CameraFragment.currentRecognition.title == "television") {
                 textView.setText("The TV Volume is " + it)
                 popupWindow.showAtLocation(layoutContainer, Gravity.CENTER, 0, 0)
                 mTextToSpeech.speak("${getString(R.string.tv_volume_indicator)} $it",TextToSpeech.QUEUE_ADD,null,it?.hashCode().toString())
-
-            }else{
-                mTextToSpeech.speak("Please turn your Camera to the TV",TextToSpeech.QUEUE_ADD,null,it?.hashCode().toString())
-
-
-            }
 
         })
 
@@ -311,7 +307,15 @@ class HomeActivity: BaseRecognitionActivity(),
 
         mDialogViewModel.getDeviceVolumeCheckAction().observe(this, Observer {
             Log.d(TAG,"subscribing to the TV volume check action")
-             mTvViewModel.getTvVolumeLevel()
+            
+            if (CameraFragment.currentRecognition.title == "television") {
+                mTvViewModel.getTvVolumeLevel()
+
+            }else{
+                mTextToSpeech.speak("Please turn your Camera to the TV",TextToSpeech.QUEUE_ADD,null,it?.hashCode().toString())
+
+
+            }
         })
 
 
@@ -365,6 +369,21 @@ class HomeActivity: BaseRecognitionActivity(),
         mSpeechRecognizer.setRecognitionListener(this)
 
 
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val x = event.x.toInt()
+        val y = event.y.toInt()
+        if (event.action == MotionEvent.ACTION_UP) {
+                var detectedObject = CameraFragment.currentRecognition.title
+            if (detectedObject.equals("air conditioner") || detectedObject.equals("television") || detectedObject.equals("lamp")){
+                textView.setText("I see a "+detectedObject)
+                popupWindow.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, x, y)
+                return true
+            }
+
+        }
+        return false
     }
 
     override fun onAudioRecordingButtonTouch() {
