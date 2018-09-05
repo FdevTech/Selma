@@ -47,10 +47,15 @@ class HomeActivity: BaseRecognitionActivity(),
     }
 
     private lateinit var popupWindow: PopupWindow
+    private lateinit var popupWindowDimmer: PopupWindow
+
     private lateinit var inflater: LayoutInflater
     private lateinit var layoutContainer: LinearLayout
     private lateinit var container: ViewGroup
+    private lateinit var dimmerContainer: ViewGroup
     private lateinit var textView: TextView
+    private lateinit var lampTextView: TextView
+    private lateinit var seekBar: SeekBar
 
 
     private lateinit var mLampViewModel:LampViewModel
@@ -110,16 +115,60 @@ class HomeActivity: BaseRecognitionActivity(),
 
         inflater = applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         container = inflater.inflate(R.layout.popup_window, null) as ViewGroup
+        dimmerContainer = inflater.inflate(R.layout.popup_window_dimmer, null) as ViewGroup
 
         popupWindow = PopupWindow(container, 600, 300, true)
         popupWindow.animationStyle = R.style.Animation
+
+        popupWindowDimmer = PopupWindow(dimmerContainer,600,400,true)
+        popupWindowDimmer.animationStyle = R.style.Animation
 
         container.setOnTouchListener { view, motionEvent ->
             popupWindow.dismiss()
             true
         }
 
+        dimmerContainer.setOnTouchListener{ view, motionEvent ->
+            popupWindowDimmer.dismiss()
+            true
+        }
+
         textView = container.findViewById<View>(R.id.textToShow) as TextView
+
+        lampTextView = dimmerContainer.findViewById<View>(R.id.lampTextView) as TextView
+        seekBar = dimmerContainer.findViewById(R.id.seekBar) as SeekBar
+
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
+                lampTextView.setText("The lamp is "+progress+"%")
+
+                when(progress){
+                    0 -> mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("NON"))
+                    1 -> mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("LOW"))
+                    2 -> mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("MEDIUM"))
+                    3 -> mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("HIGH"))
+                    4 -> mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("MAX"))
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+
+            }
+        })
+
+        val button = dimmerContainer.findViewById<View>(R.id.btn) as Button
+        button.setOnClickListener(object: View.OnClickListener{
+            override fun onClick(v: View?) {
+                //onDimmerChangelistener()
+                Toast.makeText(applicationContext,"button pressed",Toast.LENGTH_SHORT).show()
+
+            }
+        })
+
 
 
 
@@ -338,6 +387,7 @@ class HomeActivity: BaseRecognitionActivity(),
 
     }
 
+
     override fun onResume() {
         super.onResume()
         fragmentManager
@@ -376,9 +426,16 @@ class HomeActivity: BaseRecognitionActivity(),
         val y = event.y.toInt()
         if (event.action == MotionEvent.ACTION_UP) {
                 var detectedObject = CameraFragment.currentRecognition.title
-            if (detectedObject.equals("air conditioner") || detectedObject.equals("television") || detectedObject.equals("lamp")){
+
+            if (detectedObject.equals("air conditioner") || detectedObject.equals("television")){
                 textView.setText("I see a "+detectedObject)
                 popupWindow.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, x, y)
+                return true
+            }
+
+            if (detectedObject.equals("lamp")){
+                popupWindowDimmer.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, x, y)
+
                 return true
             }
 
@@ -416,5 +473,10 @@ class HomeActivity: BaseRecognitionActivity(),
         mSpeechRecognizer.destroy()
 
         disposable.dispose()
+    }
+
+    private fun onDimmerChangelistener() {
+        Log.d("TEST","suscribe inside onDimmerChange")
+
     }
 }
