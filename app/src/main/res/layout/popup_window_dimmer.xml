@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="The Lamp is 0%"
+            android:text="The Lamp is set to NON 0%"
             android:layout_gravity="center"
             android:layout_margin="3dp"
             android:textColor="@android:color/white"
@@ -27,17 +27,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/seekBar"
             android:layout_marginTop="5dp"
-            android:max="4"
+            android:max="5"
             android:min="0"
             android:layout_gravity="center"/>
 
-        <Button
+        <!--<Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn"
             android:layout_marginTop="5dp"
             android:layout_gravity="center"
-            android:text="Click"/>
+            android:text="Click"/>-->
 
 
     </LinearLayout>

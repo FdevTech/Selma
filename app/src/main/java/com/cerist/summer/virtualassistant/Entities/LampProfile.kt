@@ -18,11 +18,12 @@ class LampProfile{
     }
 
     enum class Luminosity(val value:Int) {
-        NON(0),
-        LOW(1),
-        MEDIUM(2),
-        HIGH(3),
-        MAX(4)
+        NON(5),
+        LOW(4),
+        MEDIUM(3),
+        HIGH(2),
+        VERYHIGH(1),
+        MAX(0)
     }
 
 

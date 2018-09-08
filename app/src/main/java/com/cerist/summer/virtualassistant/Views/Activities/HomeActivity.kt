@@ -70,6 +70,7 @@ class HomeActivity: BaseRecognitionActivity(),
 
     private lateinit var disposable:Disposable
 
+    private var allowLampSpeak = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -120,7 +121,7 @@ class HomeActivity: BaseRecognitionActivity(),
         popupWindow = PopupWindow(container, 600, 300, true)
         popupWindow.animationStyle = R.style.Animation
 
-        popupWindowDimmer = PopupWindow(dimmerContainer,600,400,true)
+        popupWindowDimmer = PopupWindow(dimmerContainer,600,360,true)
         popupWindowDimmer.animationStyle = R.style.Animation
 
         container.setOnTouchListener { view, motionEvent ->
@@ -140,14 +141,32 @@ class HomeActivity: BaseRecognitionActivity(),
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
-                lampTextView.setText("The lamp is "+progress+"%")
-
+                allowLampSpeak = false
                 when(progress){
-                    0 -> mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("NON"))
-                    1 -> mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("LOW"))
-                    2 -> mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("MEDIUM"))
-                    3 -> mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("HIGH"))
-                    4 -> mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("MAX"))
+                    0 -> {
+                        mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("NON"))
+                        lampTextView.setText("The lamp is set to NON 0%")
+                    }
+                    1 -> {
+                        mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("LOW"))
+                        lampTextView.setText("The lamp is set to LOW 20%")
+                    }
+                    2 -> {
+                        mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("MEDIUM"))
+                        lampTextView.setText("The lamp is set to MEDIUM 40%")
+                    }
+                    3 -> {
+                        mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("HIGH"))
+                        lampTextView.setText("The lamp is set to HIGH 60%")
+                    }
+                    4 -> {
+                        mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("VERYHIGH"))
+                        lampTextView.setText("The lamp is set to VERY HIGH 80%")
+                    }
+                    5 -> {
+                        mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("MAX"))
+                        lampTextView.setText("The lamp is set to MAX 100%")
+                    }
                 }
             }
 
@@ -156,18 +175,20 @@ class HomeActivity: BaseRecognitionActivity(),
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-
             }
         })
 
-        val button = dimmerContainer.findViewById<View>(R.id.btn) as Button
-        button.setOnClickListener(object: View.OnClickListener{
+        //val button = dimmerContainer.findViewById<View>(R.id.btn) as Button
+        /*button.setOnClickListener(object: View.OnClickListener{
             override fun onClick(v: View?) {
                 //onDimmerChangelistener()
                 Toast.makeText(applicationContext,"button pressed",Toast.LENGTH_SHORT).show()
+                allowLampSpeak = false
+                mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("HIGH"))
+                lampTextView.setText("The lamp is set to NON 0%")
 
             }
-        })
+        })*/
 
 
 
@@ -199,14 +220,15 @@ class HomeActivity: BaseRecognitionActivity(),
 
         mLampViewModel.getLampLuminosityLevelLiveData().observe(this, Observer{
             Log.d(TAG,"subscribing to the lamp luminosity change")
-            mTextToSpeech.speak("${getString(R.string.lamp_mode_indicator)} $it",TextToSpeech.QUEUE_ADD,null,it?.hashCode().toString())
-
+            if (allowLampSpeak)
+                mTextToSpeech.speak("${getString(R.string.lamp_mode_indicator)} $it",TextToSpeech.QUEUE_ADD,null,it?.hashCode().toString())
         })
 
 
         mLampViewModel.getLampConnectionErrorLiveData().observe(this, Observer {
             Log.d(TAG,"subscribing to the lamp errors changes")
-            mTextToSpeech.speak(getStringResourceByName(it!!),TextToSpeech.QUEUE_ADD,null,it.hashCode().toString())
+            if (allowLampSpeak)
+                mTextToSpeech.speak(getStringResourceByName(it!!),TextToSpeech.QUEUE_ADD,null,it.hashCode().toString())
         })
 
 
@@ -297,7 +319,10 @@ class HomeActivity: BaseRecognitionActivity(),
             when(device){
                 ChatBotProfile.Device.TV -> mTvViewModel.setTvPowerState(BroadLinkProfile.TvProfile.State.valueOf(state.name))
                 ChatBotProfile.Device.AIR_CONDITIONER -> mAirConditionerViewModel.setAirConditionerPowerState(BroadLinkProfile.AirConditionerProfile.State.valueOf(state.name))
-                ChatBotProfile.Device.LAMP -> mLampViewModel.setLampPowerState(LampProfile.State.valueOf(state.name))
+                ChatBotProfile.Device.LAMP -> {
+                    allowLampSpeak = true
+                    mLampViewModel.setLampPowerState(LampProfile.State.valueOf(state.name))
+                }
             }
         })
 
@@ -317,12 +342,14 @@ class HomeActivity: BaseRecognitionActivity(),
          */
 
         mDialogViewModel.getDeviceBrightnessCheckAction().observe(this, Observer {
+            allowLampSpeak = true
             mLampViewModel.getLampLuminosityLevel()
         })
 
         mDialogViewModel.getDeviceBrightnessSetAction().observe(this, Observer {
             val level = it?.luminosity !!
             Log.d(TAG,"subscribing to the lamp luminosity set action: $level")
+            allowLampSpeak = true
             mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf(level.name))
         })
 
@@ -427,16 +454,22 @@ class HomeActivity: BaseRecognitionActivity(),
         if (event.action == MotionEvent.ACTION_UP) {
                 var detectedObject = CameraFragment.currentRecognition.title
 
-            if (detectedObject.equals("air conditioner") || detectedObject.equals("television")){
-                textView.setText("I see a "+detectedObject)
-                popupWindow.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, x, y)
+            if (detectedObject.equals("television")){
+                mTvViewModel.getTvVolumeLevel()
+                //textView.setText("I see a "+detectedObject)
+                //popupWindow.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, x, y)
                 return true
             }
 
             if (detectedObject.equals("lamp")){
+                allowLampSpeak = false
                 popupWindowDimmer.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, x, y)
 
                 return true
+            }
+
+            if (detectedObject.equals("air conditioner")) {
+
             }
 
         }
