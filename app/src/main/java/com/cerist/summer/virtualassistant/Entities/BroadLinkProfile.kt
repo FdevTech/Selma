@@ -43,6 +43,7 @@ class BroadLinkProfile{
             const val MAX_VOLUME = 99
             const val MIN_VOLUME = 0
             val TV_TIMER_SET = arrayOf(0,15,30,60,90)
+            //val TV_TIMER_SET = arrayOf(1,2,3,4,5)
         }
         enum class State(val value: Int) {
             ON(1),

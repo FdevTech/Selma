@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/seekBar"
             android:layout_marginTop="5dp"
-            android:max="5"
+            android:max="4"
             android:min="0"
             android:layout_gravity="center"/>
 

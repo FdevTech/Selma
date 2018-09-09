@@ -71,6 +71,9 @@ class HomeActivity: BaseRecognitionActivity(),
     private lateinit var disposable:Disposable
 
     private var allowLampSpeak = true
+    private var allowTvSpeak = true
+
+    private var CURRENT_TV_VOLUME: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -149,21 +152,17 @@ class HomeActivity: BaseRecognitionActivity(),
                     }
                     1 -> {
                         mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("LOW"))
-                        lampTextView.setText("The lamp is set to LOW 20%")
+                        lampTextView.setText("The lamp is set to LOW 25%")
                     }
                     2 -> {
                         mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("MEDIUM"))
-                        lampTextView.setText("The lamp is set to MEDIUM 40%")
+                        lampTextView.setText("The lamp is set to MEDIUM 50%")
                     }
                     3 -> {
                         mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("HIGH"))
-                        lampTextView.setText("The lamp is set to HIGH 60%")
+                        lampTextView.setText("The lamp is set to HIGH 75%")
                     }
                     4 -> {
-                        mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("VERYHIGH"))
-                        lampTextView.setText("The lamp is set to VERY HIGH 80%")
-                    }
-                    5 -> {
                         mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf("MAX"))
                         lampTextView.setText("The lamp is set to MAX 100%")
                     }
@@ -245,10 +244,11 @@ class HomeActivity: BaseRecognitionActivity(),
 
         mTvViewModel.getTvVolumeLevelLiveData().observe(this, Observer {
             Log.d(TAG,"subscribing to the tv volume changes")
+            CURRENT_TV_VOLUME = it
 
-                textView.setText("The TV Volume is " + it)
-                popupWindow.showAtLocation(layoutContainer, Gravity.CENTER, 0, 0)
+            if (allowTvSpeak)
                 mTextToSpeech.speak("${getString(R.string.tv_volume_indicator)} $it",TextToSpeech.QUEUE_ADD,null,it?.hashCode().toString())
+
 
         })
 
@@ -383,15 +383,18 @@ class HomeActivity: BaseRecognitionActivity(),
 
         mDialogViewModel.getDeviceVolumeCheckAction().observe(this, Observer {
             Log.d(TAG,"subscribing to the TV volume check action")
-            
-            if (CameraFragment.currentRecognition.title == "television") {
-                mTvViewModel.getTvVolumeLevel()
+
+            allowTvSpeak =true
+            mTvViewModel.getTvVolumeLevel()
+
+            /*if (CameraFragment.currentRecognition.title == "television") {
+
 
             }else{
                 mTextToSpeech.speak("Please turn your Camera to the TV",TextToSpeech.QUEUE_ADD,null,it?.hashCode().toString())
 
 
-            }
+            }*/
         })
 
 
@@ -455,14 +458,18 @@ class HomeActivity: BaseRecognitionActivity(),
                 var detectedObject = CameraFragment.currentRecognition.title
 
             if (detectedObject.equals("television")){
+                allowTvSpeak = false
+                
                 mTvViewModel.getTvVolumeLevel()
-                //textView.setText("I see a "+detectedObject)
-                //popupWindow.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, x, y)
+
+                textView.setText("The TV Volume is " + CURRENT_TV_VOLUME)
+                popupWindow.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, x, y)
+                
+                //allowTvSpeak = true
                 return true
             }
 
             if (detectedObject.equals("lamp")){
-                allowLampSpeak = false
                 popupWindowDimmer.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, x, y)
 
                 return true

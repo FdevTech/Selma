@@ -10,7 +10,7 @@
     <!--<size
         android:width="700dp"
         android:height="500dp" />-->
-    <solid android:color="@android:color/black" />
+    <solid android:color="@color/colorAccentHighLignt" />
 
     <!-- Blue-->
     <!--<gradient
