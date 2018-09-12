@@ -320,7 +320,7 @@ class HomeActivity: BaseRecognitionActivity(),
                 ChatBotProfile.Device.TV -> mTvViewModel.setTvPowerState(BroadLinkProfile.TvProfile.State.valueOf(state.name))
                 ChatBotProfile.Device.AIR_CONDITIONER -> mAirConditionerViewModel.setAirConditionerPowerState(BroadLinkProfile.AirConditionerProfile.State.valueOf(state.name))
                 ChatBotProfile.Device.LAMP -> {
-                    allowLampSpeak = true
+                    allowLampSpeak = false
                     mLampViewModel.setLampPowerState(LampProfile.State.valueOf(state.name))
                 }
             }
@@ -332,7 +332,10 @@ class HomeActivity: BaseRecognitionActivity(),
             when(device){
                 ChatBotProfile.Device.TV -> mTvViewModel.getTvPowerState()
                 ChatBotProfile.Device.AIR_CONDITIONER -> mAirConditionerViewModel.getAirConditionerPowerState()
-                ChatBotProfile.Device.LAMP -> mLampViewModel.getLampPowerState()
+                ChatBotProfile.Device.LAMP -> {
+                    allowLampSpeak = false
+                    mLampViewModel.getLampPowerState()
+                }
             }
         })
 
@@ -342,14 +345,14 @@ class HomeActivity: BaseRecognitionActivity(),
          */
 
         mDialogViewModel.getDeviceBrightnessCheckAction().observe(this, Observer {
-            allowLampSpeak = true
+            allowLampSpeak = false
             mLampViewModel.getLampLuminosityLevel()
         })
 
         mDialogViewModel.getDeviceBrightnessSetAction().observe(this, Observer {
             val level = it?.luminosity !!
             Log.d(TAG,"subscribing to the lamp luminosity set action: $level")
-            allowLampSpeak = true
+            allowLampSpeak = false
             mLampViewModel.setLampLuminosityLevel(LampProfile.Luminosity.valueOf(level.name))
         })
 
