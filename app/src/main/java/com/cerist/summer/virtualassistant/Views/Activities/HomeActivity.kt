@@ -53,10 +53,14 @@ class HomeActivity: BaseRecognitionActivity(),
     private lateinit var layoutContainer: LinearLayout
     private lateinit var container: ViewGroup
     private lateinit var dimmerContainer: ViewGroup
-    private lateinit var textView: TextView
+
     private lateinit var lampTextView: TextView
     private lateinit var seekBar: SeekBar
 
+    private lateinit var textViewTV_Volume: TextView
+    private lateinit var textViewTV_State: TextView
+    private lateinit var seekBarTV: SeekBar
+    private lateinit var switchTV_State : Switch
 
     private lateinit var mLampViewModel:LampViewModel
     private lateinit var mTvViewModel:TvViewModel
@@ -137,7 +141,38 @@ class HomeActivity: BaseRecognitionActivity(),
             true
         }
 
-        textView = container.findViewById<View>(R.id.textToShow) as TextView
+        textViewTV_Volume = container.findViewById<View>(R.id.textViewTV_Volume) as TextView
+        textViewTV_State = container.findViewById<View>(R.id.textViewTV_State) as TextView
+        seekBarTV = container.findViewById(R.id.seekBarTV) as SeekBar
+        switchTV_State = container.findViewById(R.id.SwichTV_State)
+
+        seekBarTV.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
+                textViewTV_Volume.setText("The TV Volume is "+progress)
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                mTvViewModel.setTvVolumeLevel(seekBar!!.progress)
+
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+        })
+
+        switchTV_State.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                if(isChecked){
+                    seekBarTV.setEnabled(true)
+                    switchTV_State.setText("ON")
+                    mTvViewModel.setTvPowerState(BroadLinkProfile.TvProfile.State.ON)
+                }else{
+                    seekBarTV.setEnabled(false)
+                    switchTV_State.setText("OFF")
+                    mTvViewModel.setTvPowerState(BroadLinkProfile.TvProfile.State.OFF)
+                }
+            }
+
+        })
 
         lampTextView = dimmerContainer.findViewById<View>(R.id.lampTextView) as TextView
         seekBar = dimmerContainer.findViewById(R.id.seekBar) as SeekBar
@@ -465,7 +500,9 @@ class HomeActivity: BaseRecognitionActivity(),
                 
                 mTvViewModel.getTvVolumeLevel()
 
-                textView.setText("The TV Volume is " + CURRENT_TV_VOLUME)
+                seekBarTV.setProgress(CURRENT_TV_VOLUME!!)
+
+                textViewTV_Volume.setText("The TV Volume is " + CURRENT_TV_VOLUME)
                 popupWindow.showAtLocation(layoutContainer, Gravity.NO_GRAVITY, x, y)
                 
                 //allowTvSpeak = true

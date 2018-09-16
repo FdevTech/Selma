@@ -1,40 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-android:background="@drawable/popup_background"
-android:elevation="20dp">
-
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="Device Information"
-        android:layout_gravity="center"
-        android:layout_margin="3dp"
-        android:textColor="#455A64"/>
-    <View
+    android:background="@drawable/popup_dimmer_background"
+    android:elevation="20dp"
+    android:orientation="vertical">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/white"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        android:text="Hello Popup"
-        android:id="@+id/textToShow"
-        android:textColor="@color/colorAccent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
-</LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The TV is "
+                android:id="@+id/textViewTV_State"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <Switch
+                android:id="@+id/SwichTV_State"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:showText="false"
+                android:textSize="18sp"
+                android:text="ON"
+                android:checked="true"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="3dp"
+            android:background="@android:color/white" />
+
+        <TextView
+            android:id="@+id/textViewTV_Volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="Hello Popup"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/seekBarTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:max="100"
+            android:min="0" />
+
+    </LinearLayout>
 
 </LinearLayout>
