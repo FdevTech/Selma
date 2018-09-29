@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.polidea.rxandroidble2:rxandroidble-1.6.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/rxandroidble-1.6.0.aar/ebd4e3e8d76581e8e447c0803ac4ed36/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/rxandroidble-1.6.0.aar/ebd4e3e8d76581e8e447c0803ac4ed36/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.polidea.rxandroidble2/rxandroidble/1.6.0/bcd0982231dc0081b28ce61bd41f31a99e33289d/rxandroidble-1.6.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
