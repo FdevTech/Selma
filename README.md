@@ -10,3 +10,10 @@ the dimmer is built around **nrf51822 beacon** which can be controled by using *
 ## Augmented reality
 to build augmented reality features we have used **SDD (single shot multibox detector)** our model can recognize three objects **air conditioner TV lamp**, we have created our model by using **TensorFlow** bellow some images of our detections.</br>
 ![detection of the lamp ](https://user-images.githubusercontent.com/38364385/47671463-d3902880-dbaf-11e8-9ab8-576ecbd5ceec.png)
+
+## virtual assistant:
+the virtual assistant the user to interact with his home natively so to build we have used **speech to text engine** a module to make natural language understanding **dialogflow** and **text to speech engine** to get started with **dialogflow** i sugest you to take a look at [this post](https://medium.com/mindorks/dialogflow-within-android-c3771d15db84) the video bellow show you a demo of our project 
+<a href="https://youtu.be/OcIIHPfzdMU=YOUTUBE_VIDEO_ID_HERE
+" target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+
