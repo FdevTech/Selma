@@ -15,5 +15,5 @@ to build augmented reality features we have used **SDD (single shot multibox det
 the virtual assistant the user to interact with his home natively so to build we have used **speech to text engine** a module to make natural language understanding **dialogflow** and **text to speech engine** to get started with **dialogflow** i sugest you to take a look at [this post](https://medium.com/mindorks/dialogflow-within-android-c3771d15db84) the video bellow show you a demo of our project 
 <a href="https://youtu.be/OcIIHPfzdMU=YOUTUBE_VIDEO_ID_HERE
 " target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
-alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+alt="Selma" width="240" height="180" border="10" /></a>
 
