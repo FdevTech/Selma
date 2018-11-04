@@ -16,10 +16,6 @@ to build augmented reality features we have used **SDD (single shot multibox det
 ## virtual assistant:
 the virtual assistant the user to interact with his home natively so to build we have used **speech to text engine** a module to make natural language understanding **dialogflow** and **text to speech engine** to get started with **dialogflow** i suggest you to take a look at [this post](https://medium.com/mindorks/dialogflow-within-android-c3771d15db84) and read this [code](https://github.com/ceristTeam/virtualAssistant)
 ## IR Control
-to allow the user to add his appliances remote we have created a graphical interface the code fo this programme is [thre](https://github.com/ceristTeam/smartRemotev1.0)
-the video shows you a demo of our project 
-<a href="https://youtu.be/OcIIHPfzdMU=YOUTUBE_VIDEO_ID_HERE
-" target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
-alt="Selma" width="240" height="180" border="10" /></a>
-
- <iframe width "560" height="315" src="https://www.youtube.com/watch?v=OcIIHPfzdMU"></iframe> 
+to allow the user to add his appliances remote we have created a graphical interface the code fo this programme is [thre](https://github.com/ceristTeam/smartRemotev1.0)</br>
+the video shows you a demo of our project </br>
+[![virtual assistant with AR capabilities used in smarthome](http://img.youtube.com/vi/OcIIHPfzdMU/0.jpg)](http://www.youtube.com/watch?v=OcIIHPfzdMU)
