@@ -143,7 +143,8 @@ class HomeActivity: BaseRecognitionActivity(),
 
         textViewTV_Volume = container.findViewById<View>(R.id.textViewTV_Volume) as TextView
         textViewTV_State = container.findViewById<View>(R.id.textViewTV_State) as TextView
-        seekBarTV = container.findViewById(R.id.seekBarTV) as SeekBar
+        //seekBarTV = container.findViewById(R.id.seekBarTV) as SeekBar
+        seekBarTV = container.findViewById<SeekBar>(R.id.seekBarTV)
         switchTV_State = container.findViewById(R.id.SwichTV_State)
 
         seekBarTV.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
@@ -175,7 +176,8 @@ class HomeActivity: BaseRecognitionActivity(),
         })
 
         lampTextView = dimmerContainer.findViewById<View>(R.id.lampTextView) as TextView
-        seekBar = dimmerContainer.findViewById(R.id.seekBar) as SeekBar
+        //seekBar = dimmerContainer.findViewById(R.id.seekBar) as SeekBar
+        seekBar = dimmerContainer.findViewById<SeekBar>(R.id.seekBar)
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
