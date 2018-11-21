@@ -14,7 +14,7 @@ to build augmented reality features we have used **SDD (single shot multibox det
 ![detection of the lamp ](https://user-images.githubusercontent.com/38364385/47671463-d3902880-dbaf-11e8-9ab8-576ecbd5ceec.png)
 
 ## virtual assistant:
-the virtual assistant the user to interact with his home natively so to build we have used **speech to text engine** a module to make natural language understanding **dialogflow** and **text to speech engine** to get started with **dialogflow** i suggest you to take a look at [this post](https://medium.com/mindorks/dialogflow-within-android-c3771d15db84) and read this [code](https://github.com/ceristTeam/virtualAssistant)
+the virtual assistant allows the user to interact with his home natively so to build this features we have used **speech to text engine** a module to make natural language understanding **dialogflow** and **text to speech engine** to get started with **dialogflow** i suggest you to take a look at [this post](https://medium.com/mindorks/dialogflow-within-android-c3771d15db84) and read this [code](https://github.com/ceristTeam/virtualAssistant)
 ## IR Control
 to allow the user to add his appliances remote we have created a graphical interface the code fo this programme is [thre](https://github.com/ceristTeam/smartRemotev1.0)</br>
 the video shows you a demo of our project </br>
